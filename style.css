@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
+/*
+  Note: This project now *prefers* the Aptos font for body & headings.
+  To actually use Aptos on the web, either:
+  - install Aptos on your system (browsers will use it if available), or
+  - add a webfont provider / @font-face that serves Aptos.
+  Fallbacks are included below if Aptos isn't available.
+*/
+
+:root{
+  /* Strong-pink palette (consistent across app) */
+  --bg: #fff1f6; /* very light pink background */
+  --card: #ffffff;
+  --accent: #ff4d94; /* strong pink primary */
+  --accent-dark: #b62f68; /* darker pink for improved contrast */
+  --accent-2: var(--accent); /* not used - ensure no gradient variation */
+  --accent-soft: #ffeaf3; /* subtle soft background tint */
+  --accent-rgb: 255,77,148; /* rgb of strong pink for shadows */
+  --muted: #6b4756;
+  --gold: #d7a86e;
+  --text: #3b2b33; /* dark text that pairs with pink */
+  --font-sans: 'Aptos', 'Roboto', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Playfair Display', 'Georgia', serif;
+}
+
+/* Enforce single pink palette for interactive elements */
+::selection{background: rgba(var(--accent-rgb),0.18); color: white}
+input::placeholder, textarea::placeholder{color: rgba(var(--accent-rgb),0.28)}
+*{accent-color: var(--accent);}
+/* Force all links to use strong pink and prevent browser default blue */
+a, a:link, a:visited {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  outline: none;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: var(--font-sans);
+  font-weight:400;
+  background: var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+.site-header{
+  background-color: var(--accent);
+  color:white;
+  padding:24px 16px;
+  box-shadow:0 6px 18px rgba(var(--accent-rgb),0.12);
+  /* smooth appear */
+  will-change: opacity, transform;
+}
+
+/* initial hidden state to prevent content flash and enable smooth entrance (opacity only) */
+.container, .site-header, .container .card, .gallery-grid, #timeline-content {
+  opacity: 0;
+  transition: opacity .36s ease;
+}
+
+/* apply when JS signals page is ready */
+.page-ready .container,
+.page-ready .site-header,
+.page-ready .container .card,
+.page-ready .gallery-grid,
+.page-ready #timeline-content {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container, .site-header, .container .card, .gallery-grid, #timeline-content {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Page exit (fade-out) triggered on internal navigation */
+.page-exit .site-header,
+.page-exit .container,
+.page-exit .container .card,
+.page-exit .gallery-grid,
+.page-exit #timeline-content {
+  opacity: 0;
+  transition: opacity .36s ease;
+}
+.page-exit .container .card { transition-delay: 0.04s }
+
+
+.header-inner{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:16px}
+.logo{font-size:28px;background:rgba(var(--accent-rgb),0.08);padding:10px;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center}
+.title-block h1{font-family:var(--font-sans);font-weight:700;margin:0;font-size:26px}
+.subtitle{margin:2px 0 0;color:rgba(255,255,255,0.95);font-weight:300}
+/* site nav - keep buttons aligned to the right and visible */
+.site-nav{margin-left:auto;display:flex;align-items:center;gap:10px}
+.site-nav .btn{padding:10px 14px;font-size:16px;border-radius:10px;color:white;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18)}
+.site-nav .btn:hover{background:rgba(255,255,255,0.10)}
+@media (max-width:760px){
+  .site-nav .btn{padding:8px 10px;font-size:14px}
+}
+
+/* prominent back button for gallery */
+.back-btn{background: var(--accent-dark);border:1px solid rgba(var(--accent-rgb),0.36);padding:8px 12px;border-radius:10px;color:white}
+.back-btn:focus{outline: 2px solid rgba(var(--accent-rgb),0.36);outline-offset:2px}
+
+
+
+
+.container{max-width:980px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.container .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(var(--accent-rgb),0.06)}
+
+/* Gallery styles */
+.gallery-card .gallery-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.gallery-form input[type=file]{flex-basis:100%}
+/* Style the native file input button to match the pink theme */
+.gallery-form input[type=file]::file-selector-button,
+.gallery-form input[type=file]::-webkit-file-upload-button{
+  background: var(--accent-dark);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.gallery-form input[type=file]::file-selector-button:focus,
+.gallery-form input[type=file]::-webkit-file-upload-button:focus{
+  outline: 2px solid rgba(var(--accent-rgb),0.36);
+}
+.preview-area{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.preview-item{width:110px;height:80px;border-radius:8px;overflow:hidden;border:1px solid rgba(var(--accent-rgb),0.08)}
+.preview-item img{width:100%;height:100%;object-fit:cover;background:var(--accent-soft)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}
+.gallery-item{border-radius:10px;padding:8px;border:1px solid rgba(var(--accent-rgb),0.06);background:var(--card)}
+.gallery-item img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:var(--accent-soft)}
+.gallery-item .meta{margin-top:8px}
+.gallery-item .cap{font-weight:600}
+.gallery-item .date{font-size:12px;color:var(--muted);margin-top:6px}
+.lightbox{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(var(--accent-rgb),0.12);backdrop-filter: blur(4px);z-index:2000}
+.lightbox.hidden{display:none}
+.lightbox-inner{background:var(--card);padding:18px;border-radius:10px;max-width:90%;max-height:90%;display:flex;flex-direction:column;gap:10px}
+.lightbox-inner img{max-width:100%;max-height:70vh;border-radius:6px}
+.lb-caption{color:var(--muted)}
+
+h2{font-family:var(--font-sans);font-weight:700;margin:0 0 12px;font-size:18px}
+
+h1,h2,h3,h4,h5,h6{font-family:var(--font-sans);font-weight:700}
+
+#countdown-display{font-weight:700;font-size:20px;color:var(--accent-dark);min-height:48px;display:flex;align-items:center;justify-content:center}
+/* Force all countdown text (and any auto-detected links) to use pink */
+#countdown-display, #countdown-display * { color: var(--accent-dark) !important; -webkit-text-fill-color: var(--accent-dark) !important; }
+#countdown-display a { color: var(--accent-dark) !important; text-decoration: none; }
+#countdown-display .countdown-label{font-size:12px;color:var(--muted);margin-top:6px}
+#countdown-display .countdown-value{font-size:20px}
+#quotes-text{font-size:16px;color:var(--text);padding:8px 0;transition:opacity 0.6s ease;opacity:1}
+.fade-out{opacity:0}
+.hidden{display:none}
+input:focus, textarea:focus, select:focus{outline: 2px solid rgba(var(--accent-rgb),0.22); outline-offset:2px; box-shadow: none;}
+.countdown-controls{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.countdown-actions{display:flex;align-items:center;gap:8px}
+.countdown-form{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.countdown-form input{padding:8px;border-radius:8px;border:1px solid rgba(var(--accent-rgb),0.08)}
+#countdown-display .countdown-label{font-size:12px;color:var(--muted);margin-top:6px}
+#countdown-display .countdown-value{font-size:20px}
+
+.timeline-header{display:flex;align-items:center;justify-content:space-between}
+.timeline-content{margin-top:12px}
+.timeline-content .memory{padding:10px;border-radius:8px;background:linear-gradient(90deg,var(--card),var(--accent-soft));border:1px solid rgba(var(--accent-rgb),0.06);margin-bottom:8px}
+.timeline-content .memory strong{display:block;color:var(--muted);font-size:12px}
+.memory-event{font-size:15px;margin-top:6px;color:var(--text)}
+
+.add-memory-form{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.add-memory-form input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(var(--accent-rgb),0.08)}
+/* Standardized button sizing — consistent, balanced length & height */
+.btn, .btn-ghost, .site-nav .btn, .back-btn, .gallery-form input[type=file]::file-selector-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px; /* comfortable touch size */
+  padding: 0 18px;
+  font-size: 16px;
+  gap: 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  min-width: 88px; /* keeps short labels from collapsing */
+  max-width: 320px;
+  box-sizing: border-box;
+}
+
+/* Primary button */
+.btn {
+  background: var(--accent-dark);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(var(--accent-rgb),0.18);
+}
+
+/* keep color stable; add subtle non-color focus ring for accessibility */
+.btn:focus{outline: 2px solid rgba(var(--accent-rgb),0.36); outline-offset:2px}
+
+/* ghost variant: use white text on slightly stronger background to ensure visibility */
+.btn-ghost{
+  background: rgba(var(--accent-rgb),0.22);
+  border:1.5px solid rgba(var(--accent-rgb),0.48);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(var(--accent-rgb),0.08);
+}
+.btn-ghost:hover{background: rgba(var(--accent-rgb),0.28);border-color:rgba(var(--accent-rgb),0.56)}
+.btn-ghost:focus{outline: 3px solid rgba(var(--accent-rgb),0.44);outline-offset:2px}
+
+/* Ensure tappable targets meet recommended touch size (44px) */
+.btn, .btn-ghost, .site-nav .btn, .back-btn, .gallery-form input[type=file]::file-selector-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 16px;
+}
+
+footer{max-width:980px;margin:26px auto;text-align:center;padding:18px 16px;color:var(--muted)}
+
+/* Ensure subtle pink tint on cards/shadows */
+.container .card{box-shadow:0 10px 30px rgba(var(--accent-rgb),0.05)}
+
+@media (max-width:760px){
+  .container{grid-template-columns:1fr}
+  .title-block h1{font-size:20px}
+}

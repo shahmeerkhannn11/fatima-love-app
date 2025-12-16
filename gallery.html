@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gallery — For Fatima</title>
+  <!-- Critical inline CSS for immediate color paint to avoid flicker -->
+  <meta name="theme-color" content="#b62f68">
+  <style>/* inline critical color variables (must be tiny) */
+    :root{ --accent: #ff4d94; --accent-dark: #b62f68; --accent-soft:#ffeaf3; --bg: #fff1f6; }
+    body{background-color:var(--bg);}
+    .site-header{background-color:var(--accent-dark);color:#fff}
+  </style>
+  <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="style.css"></noscript>
+</head>
+<body>
+  <header class="site-header" style="background-color:#b62f68">
+    <div class="header-inner">
+      <div class="logo">❤</div>
+      <div class="title-block">
+        <h1>Photo Gallery</h1>
+        <p class="subtitle">Upload and browse our memory pictures</p>
+      </div>
+      <nav class="site-nav">
+        <a href="index.html" class="btn back-btn">← Back</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card gallery-card">
+      <h2>Upload Memories</h2>
+      <form id="gallery-form" class="gallery-form">
+        <input id="file-input" type="file" accept="image/*" multiple />
+        <input id="caption-input" type="text" placeholder="Caption (optional)" />
+        <input id="photo-date" type="date" />
+        <div class="gallery-actions">
+          <button id="save-photos" class="btn" type="button">Save Photos</button>
+          <button id="clear-photos" class="btn btn-ghost" type="button">Clear All</button>
+        </div>
+      </form>
+
+      <div id="preview-area" class="preview-area"></div>
+    </section>
+
+    <section class="card">
+      <h2>Your Photos</h2>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox hidden">
+    <div class="lightbox-inner">
+      <button id="lb-close" class="btn btn-ghost">Close</button>
+      <img id="lb-image" src="" alt="">
+      <div id="lb-caption" class="lb-caption"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Love by Shahmeer Khan</p>
+  </footer>
+
+  <script src="gallery.js"></script>
+</body>
+</html>
