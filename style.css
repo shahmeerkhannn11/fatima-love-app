@@ -1,3 +1,46 @@
+/* Login Page Styles */
+.login-container {
+  max-width: 350px;
+  margin: 80px auto;
+  padding: 30px 25px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background: #e75480;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.login-container button:hover {
+  background: #d1436a;
+}
+.login-container .error {
+  color: #d1436a;
+  margin-top: 10px;
+  font-size: 14px;
+}
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
 /*
   Note: This project now *prefers* the Aptos font for body & headings.
