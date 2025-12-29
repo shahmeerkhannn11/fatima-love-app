@@ -30,6 +30,7 @@ loginForm.addEventListener('submit', function(e) {
                 email: user.email,
                 lastLogin: new Date().toISOString()
             });
+            localStorage.setItem('userLoggedIn', 'true');
             window.location.href = 'index.html'; // Redirect after login
         })
         .catch((error) => {
