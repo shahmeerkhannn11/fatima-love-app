@@ -3,27 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <!-- Firebase Auth -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <!-- Firebase Database -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p id="loginError" class="error"></p>
-        <p>Don't have an account? <a href="register.html">Register</a></p>
-    </div>
-    <script src="login.js"></script>
+    <!-- ...existing code... -->
 </body>
 </html>
 <!DOCTYPE html>
@@ -52,7 +34,7 @@
                 <p class="subtitle">A small place for our memories</p>
             </div>
             <nav class="site-nav">
-                <a href="gallery.html" class="btn">Gallery</a>
+                <a href="gallery.html" class="btn" id="goto-gallery">Go to Gallery</a>
             </nav>
         </div>
     </header>
