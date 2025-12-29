@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            // Redirect to login.html if not logged in
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!localStorage.getItem('userLoggedIn')) {
+                    window.location.href = 'login.html';
+                }
+            });
+        </script>
 </head>
 <body>
     <!-- ...existing code... -->
