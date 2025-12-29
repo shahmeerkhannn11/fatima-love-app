@@ -8,6 +8,22 @@
  */
 'use strict';
 
+// Firebase setup
+const firebaseConfig = {
+    apiKey: "AIzaSyAVWzwX7kOSSfEBrHjdAB7kGaKEusQwuTA",
+    authDomain: "loveapp-4d848.firebaseapp.com",
+    databaseURL: "https://loveapp-4d848-default-rtdb.firebaseio.com",
+    projectId: "loveapp-4d848",
+    storageBucket: "loveapp-4d848.appspot.com",
+    messagingSenderId: "106357915882",
+    appId: "1:106357915882:web:ec0ce212cfddbb89d31793",
+    measurementId: "G-7QY4D3D8V1"
+};
+if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // trigger CSS entrance once JS is running to avoid initial flicker
   try { requestAnimationFrame(()=>{ document.documentElement.classList.add('page-ready'); }); } catch(e) { document.documentElement.classList.add('page-ready'); }
@@ -35,10 +51,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default countdown target and storage handling
   const COUNTDOWN_TARGET_DEFAULT = '2026-07-12T00:00:00';
   const STORAGE_COUNTDOWN_KEY = 'fatima_countdown_target';
-  function getStoredCountdownISO() { try { return localStorage.getItem(STORAGE_COUNTDOWN_KEY) || COUNTDOWN_TARGET_DEFAULT; } catch (e) { return COUNTDOWN_TARGET_DEFAULT; } }
-  let countdownTargetISO = getStoredCountdownISO();
-  let countdownTargetTime = new Date(countdownTargetISO).getTime();
-  function setCountdownTargetFromISO(iso) { try { localStorage.setItem(STORAGE_COUNTDOWN_KEY, iso); } catch (e) {} countdownTargetISO = iso; countdownTargetTime = new Date(iso).getTime(); updateCountdown(); }
+    // Load countdown from Firebase
+    let countdownTargetISO = COUNTDOWN_TARGET_DEFAULT;
+    let countdownTargetTime = new Date(countdownTargetISO).getTime();
+    async function loadCountdownFromFirebase() {
+        try {
+            const snapshot = await database.ref('countdown').once('value');
+            const val = snapshot.val();
+            if (val && val.iso) {
+                countdownTargetISO = val.iso;
+                countdownTargetTime = new Date(countdownTargetISO).getTime();
+                if (val.label) countdownLabel = val.label;
+                updateCountdown();
+            }
+        } catch (e) { updateCountdown(); }
+    }
+    loadCountdownFromFirebase();
+    function setCountdownTargetFromISO(iso) {
+        try {
+            localStorage.setItem(STORAGE_COUNTDOWN_KEY, iso);
+            database.ref('countdown/iso').set(iso);
+        } catch (e) {}
+        countdownTargetISO = iso;
+        countdownTargetTime = new Date(iso).getTime();
+        updateCountdown();
+    }
     // === Elements ===
         const countdownDisplayEl = document.getElementById('countdown-display');
         const countdownHeadingEl = document.getElementById('countdown-heading');
@@ -50,7 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const STORAGE_COUNTDOWN_LABEL_KEY = 'fatima_countdown_label';
         function getStoredCountdownLabel() { try { return localStorage.getItem(STORAGE_COUNTDOWN_LABEL_KEY) || 'Days until Nikkah'; } catch (e) { return 'Days until Nikkah'; } }
         let countdownLabel = getStoredCountdownLabel();
-        function setCountdownLabel(label) { try { localStorage.setItem(STORAGE_COUNTDOWN_LABEL_KEY, label); } catch (e) {} countdownLabel = label; updateCountdown(); }
+                function setCountdownLabel(label) {
+                    try {
+                        localStorage.setItem(STORAGE_COUNTDOWN_LABEL_KEY, label);
+                        database.ref('countdown/label').set(label);
+                    } catch (e) {}
+                    countdownLabel = label;
+                    updateCountdown();
+                }
 
     // === Countdown ===
     function pad(n) { return String(n).padStart(2, '0'); }
@@ -163,16 +207,23 @@ document.addEventListener('DOMContentLoaded', () => {
         { date: '12 JULY 2025', event: 'NIKKAH DAY' },
     ];
 
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) memories = JSON.parse(stored);
-    } catch (e) {
-        // ignore JSON errors
-    }
+        // Load memories from Firebase
+        async function loadMemoriesFromFirebase() {
+            try {
+                const snapshot = await database.ref('memories').once('value');
+                const val = snapshot.val();
+                if (val) memories = val;
+                renderTimeline();
+            } catch (e) { renderTimeline(); }
+        }
+        loadMemoriesFromFirebase();
 
-    function saveMemories() {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(memories)); } catch (e) {}
-    }
+        function saveMemories() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(memories));
+                database.ref('memories').set(memories);
+            } catch (e) {}
+        }
 
     function escapeHtml(str) {
         return String(str).replace(/[&<>'"]/g, ch => ({
