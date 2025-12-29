@@ -1,99 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script>
-            // Redirect to login.html if not logged in
-            document.addEventListener('DOMContentLoaded', function() {
-                if (!localStorage.getItem('userLoggedIn')) {
-                    window.location.href = 'login.html';
-                }
-            });
-        </script>
-</head>
-<body>
-    <!-- ...existing code... -->
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Fatima: A Love Story</title>
-    <!-- Critical inline CSS for immediate color paint to avoid flicker -->
-  <meta name="theme-color" content="#b62f68">
-  <meta name="format-detection" content="telephone=no">
-  <style>/* inline critical color variables (must be tiny) */
-      :root{ --accent: #ff4d94; --accent-dark: #b62f68; --accent-soft:#ffeaf3; --bg: #fff1f6; }
-      body{background-color:var(--bg);} 
-      .site-header{background-color:var(--accent-dark);color:#fff}
-    </style>
-    <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <!-- Firebase Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
-        <header class="site-header" style="background-color:#b62f68">
-        <div class="header-inner">
-            <div class="logo">❤</div>
-            <div class="title-block">
-                <h1>For My Dearest Fatima</h1>
-                <p class="subtitle">A small place for our memories</p>
-            </div>
-            <nav class="site-nav">
-                <a href="gallery.html" class="btn" id="goto-gallery">Go to Gallery</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="card" id="countdown">
-            <h2 id="countdown-heading">Days until Nikkah</h2>
-            <div class="countdown-controls">
-                <div id="countdown-display">Loading...</div>
-                <div class="countdown-actions">
-                    <button id="edit-countdown" class="btn btn-ghost">Edit</button>
-                </div>
-            </div>
-
-            <form id="countdown-form" class="countdown-form hidden">
-                <input type="text" name="countdown-label" placeholder="Label (e.g. Nikkah)" />
-                <input type="date" name="countdown-date" required />
-                <input type="time" name="countdown-time" required />
-                <button type="submit" class="btn">Save</button>
-                <button type="button" id="cancel-countdown" class="btn btn-ghost">Cancel</button>
-            </form>
-        </section>
-
-        <section class="card" id="love-quotes">
-            <h2>Quotes Just for You</h2>
-            <div id="quotes-text">Loading...</div>
-        </section>
-
-        <section class="card" id="memory-timeline">
-            <div class="timeline-header">
-                <h2>Our Journey Together</h2>
-                <div class="timeline-actions">
-                    <button id="clear-memories" class="btn btn-ghost">Clear</button>
-                </div>
-            </div>
-            <div id="timeline-content" class="timeline-content">
-                <!-- Memory items will go here -->
-            </div>
-
-            <form id="add-memory-form" class="add-memory-form">
-                <input name="date" placeholder="Date (e.g. 12 JULY 2025)" required />
-                <input name="event" placeholder="Event (e.g. NIKKAH DAY)" required />
-                <button type="submit" class="btn">Add Memory</button>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Love by Shahmeer Khan</p>
-    </footer>
-
-  <script src="script.js"></script>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="loginError" class="error"></p>
+        <p>Don't have an account? <a href="register.html">Register</a></p>
+    </div>
+    <script src="login.js"></script>
 </body>
 </html>
