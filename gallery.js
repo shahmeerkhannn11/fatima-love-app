@@ -142,25 +142,32 @@
 
   clearBtn.addEventListener('click', async () => {
     if (!confirm('Delete all saved photos?')) return;
-    try{ await clearAllImages(); await renderGallery(); }catch(e){ console.error(e); alert('Failed to clear photos'); }
+    try {
+      await database.ref('gallery').remove();
+      await renderGallery();
+    } catch (e) { console.error(e); alert('Failed to clear photos'); }
   });
 
 
 
-  // delegation for view/delete (now works with IndexedDB)
+  // delegation for view/delete (Firebase only)
   galleryGrid.addEventListener('click', async (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
     const id = btn.dataset.id;
     if (btn.classList.contains('view')) {
-      try{
-        const items = await getAllImages();
-        const item = items.find(i=>i.id===id);
-        if (item) { lbImage.src = item.data; lbCaption.textContent = item.caption || ''; lightbox.classList.remove('hidden'); }
-      }catch(e){ console.error(e); }
+      // Find and show image from Firebase
+      try {
+        const snapshot = await database.ref('gallery/' + id).once('value');
+        const item = snapshot.val();
+        if (item) { lbImage.src = item.url; lbCaption.textContent = item.caption || ''; lightbox.classList.remove('hidden'); }
+      } catch (e) { console.error(e); }
     } else if (btn.classList.contains('remove')) {
       if (!confirm('Delete this photo?')) return;
-      try{ await deleteImageById(id); await renderGallery(); }catch(e){ console.error(e); alert('Failed to delete photo'); }
+      try {
+        await database.ref('gallery/' + id).remove();
+        await renderGallery();
+      } catch (e) { console.error(e); alert('Failed to delete photo'); }
     }
   });
 
@@ -171,6 +178,6 @@
     return new Promise((res, rej)=>{ const r = new FileReader(); r.onload = ()=>res(r.result); r.onerror = rej; r.readAsDataURL(file); });
   }
 
-  // migrate any old localStorage images into IndexedDB, then render
-  migrateLocalStorageToIndexedDB().then(()=>renderGallery()).catch(()=>renderGallery());
+  // Initial gallery render from Firebase
+  renderGallery();
 });
