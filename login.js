@@ -31,7 +31,7 @@ loginForm.addEventListener('submit', function(e) {
                 lastLogin: new Date().toISOString()
             });
             localStorage.setItem('userLoggedIn', 'true');
-            window.location.href = 'index.html'; // Redirect after login
+            window.location.href = 'home.html'; // Redirect after login
         })
         .catch((error) => {
             loginError.textContent = error.message;
